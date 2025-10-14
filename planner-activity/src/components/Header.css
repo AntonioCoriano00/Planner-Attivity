@@ -1,0 +1,224 @@
+.header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  padding: 1.5rem 0;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="headerPattern" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23headerPattern)"/></svg>');
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.app-title {
+  text-align: left;
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.app-name {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: var(--transition-normal);
+}
+
+.app-name:hover {
+  transform: scale(1.02);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.app-subtitle {
+  margin: var(--spacing-sm) 0 0 0;
+  font-size: 1rem;
+  font-weight: 300;
+  opacity: 0.9;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.8);
+  transition: var(--transition-normal);
+}
+
+.app-subtitle:hover {
+  opacity: 1;
+  color: white;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  animation: slideInLeft 0.8s ease-out 0.2s both;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  transition: var(--transition-normal);
+}
+
+.user-details:hover {
+  transform: translateX(-5px);
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: var(--transition-normal);
+}
+
+.user-name:hover {
+  color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.user-email {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.8);
+  transition: var(--transition-normal);
+}
+
+.user-email:hover {
+  opacity: 1;
+  color: white;
+}
+
+.logout-button {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: var(--transition-normal);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.logout-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: var(--transition-slow);
+}
+
+.logout-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.logout-button:hover::before {
+  left: 100%;
+}
+
+.logout-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.logout-icon {
+  font-size: 1rem;
+  transition: var(--transition-normal);
+}
+
+.logout-button:hover .logout-icon {
+  transform: rotate(10deg);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: var(--spacing-md) 0;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+  
+  .app-title {
+    text-align: center;
+  }
+  
+  .app-name {
+    font-size: 2rem;
+  }
+  
+  .app-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .user-info {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .user-details {
+    align-items: center;
+    text-align: center;
+  }
+  
+  .logout-button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .app-name {
+    font-size: 1.8rem;
+  }
+  
+  .app-subtitle {
+    font-size: 0.85rem;
+  }
+  
+  .user-name {
+    font-size: 0.9rem;
+  }
+  
+  .user-email {
+    font-size: 0.8rem;
+  }
+}

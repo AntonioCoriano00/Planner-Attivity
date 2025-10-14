@@ -3,38 +3,43 @@
 }
 
 :root {
-  /* Colori principali */
-  --primary-color: #667eea;
-  --primary-dark: #5a6fd8;
-  --secondary-color: #764ba2;
-  --accent-color: #f093fb;
+  /* Colori principali - Tema Indaco-Viola-Fucsia */
+  --primary-color: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #8b5cf6;
+  --secondary-color: #a855f7;
+  --accent-color: #c084fc;
   
   /* Colori di stato */
-  --success-color: #4caf50;
-  --warning-color: #ff9800;
-  --error-color: #f44336;
-  --info-color: #2196f3;
+  --success-color: #34a853;
+  --warning-color: #fbbc04;
+  --error-color: #ea4335;
+  --info-color: #4285f4;
   
   /* Colori neutri */
-  --text-primary: #2c3e50;
-  --text-secondary: #666;
-  --text-muted: #888;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
   --background-primary: #ffffff;
-  --background-secondary: #f8f9fa;
-  --background-tertiary: #e9ecef;
-  --border-color: #e0e0e0;
+  --background-secondary: #faf5ff;
+  --background-tertiary: #f3f4f6;
+  --background-light: #f8fafc;
+  --border-color: #e0e7ff;
+  --border-light: #f1f5f9;
   
-  /* Ombre */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
-  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.2);
+  /* Ombre - Tonalità viola moderne */
+  --shadow-xs: 0 1px 2px 0 rgba(99, 102, 241, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(99, 102, 241, 0.1);
+  --shadow-md: 0 4px 12px 0 rgba(99, 102, 241, 0.15);
+  --shadow-lg: 0 8px 20px 0 rgba(99, 102, 241, 0.2);
+  --shadow-xl: 0 12px 32px 0 rgba(99, 102, 241, 0.25);
   
-  /* Bordi */
+  /* Bordi - Più arrotondati */
   --border-radius-sm: 8px;
   --border-radius-md: 12px;
   --border-radius-lg: 16px;
-  --border-radius-xl: 20px;
+  --border-radius-xl: 24px;
+  --border-radius-pill: 50px;
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -43,31 +48,95 @@
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
   --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
   
   /* Transizioni */
-  --transition-fast: 0.2s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.5s ease;
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+    'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  position: relative;
+  overflow-x: hidden;
+  
+  /* Sfondo principale con pattern agenda */
+  background: 
+    /* Pattern righe come un'agenda */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 35px,
+      rgba(99, 102, 241, 0.08) 35px,
+      rgba(99, 102, 241, 0.08) 37px
+    ),
+    /* Pattern verticale per simulare colonne */
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 80px,
+      rgba(139, 92, 246, 0.05) 80px,
+      rgba(139, 92, 246, 0.05) 81px
+    ),
+    /* Gradiente di sfondo */
+    linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #ddd6fe 100%);
+  
+  background-attachment: fixed;
   color: var(--text-primary);
-  line-height: 1.6;
-  font-size: 16px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+/* Elementi decorativi a tema calendario */
+body::before {
+  content: '';
+  position: fixed;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -150px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+  border-radius: 50%;
+  animation: float 8s ease-in-out infinite reverse;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(30px);
+  }
 }
 
 .App {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 .main-content {
@@ -75,26 +144,27 @@ body {
   background: transparent;
   min-height: calc(100vh - 200px);
   position: relative;
+  z-index: 1;
 }
 
-/* Scrollbar personalizzata */
+/* Scrollbar personalizzata - Più sottile e moderna */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background-secondary);
-  border-radius: var(--border-radius-sm);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  border-radius: var(--border-radius-sm);
+  background: var(--border-color);
+  border-radius: 10px;
   transition: var(--transition-normal);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, var(--primary-dark), var(--secondary-color));
+  background: var(--text-muted);
 }
 
 /* Animazioni migliorate */
@@ -162,8 +232,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-  color: white;
+  background: white;
+  color: var(--text-primary);
   position: relative;
   overflow: hidden;
 }
@@ -175,32 +245,20 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-  animation: pulse 2s ease-in-out infinite;
+  background: radial-gradient(circle at 30% 50%, rgba(26, 115, 232, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(0, 184, 212, 0.05) 0%, transparent 50%);
 }
 
 .loading-spinner {
-  width: 60px;
-  height: 60px;
-  border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top: 4px solid white;
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border-light);
+  border-top: 3px solid var(--primary-color);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
   margin-bottom: var(--spacing-lg);
   position: relative;
   z-index: 1;
-}
-
-.loading-spinner::after {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  animation: spin 2s linear infinite reverse;
 }
 
 @keyframes spin {
@@ -209,11 +267,12 @@ body {
 }
 
 .loading-screen p {
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 400;
   margin: 0;
   position: relative;
   z-index: 1;
+  color: var(--text-secondary);
   animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -411,4 +470,12 @@ body {
 .backend-status-connected p {
   margin: 0;
   font-weight: 600;
+}
+
+/* Responsive Design per lo sfondo */
+@media (max-width: 768px) {
+  body::before,
+  body::after {
+    display: none;
+  }
 }

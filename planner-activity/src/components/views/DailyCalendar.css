@@ -1,0 +1,639 @@
+/* DailyCalendar.css - Calendario giornaliero con fasce orarie */
+
+.daily-calendar {
+  padding: var(--spacing-lg);
+  background: var(--background-primary);
+  min-height: 100vh;
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Header del calendario - stile uniforme con altre pagine */
+.daily-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.daily-header h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.date-navigation {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.nav-btn {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.today-btn {
+  border-radius: 20px;
+  width: auto;
+  padding: 0 var(--spacing-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Statistiche giornaliere */
+.daily-stats {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.stat-item {
+  text-align: center;
+  padding: var(--spacing-md);
+  background: white;
+  border-radius: var(--border-radius-md);
+  min-width: 80px;
+  border: 1px solid var(--border-light);
+  transition: all var(--transition-normal);
+}
+
+.stat-item:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* Controlli del calendario */
+.calendar-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  gap: var(--spacing-md);
+}
+
+.control-btn {
+  background: linear-gradient(135deg, var(--background-primary) 0%, rgba(248, 250, 252, 0.95) 100%);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+}
+
+.control-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.scroll-to-current {
+  border-color: var(--info-color);
+  color: var(--info-color);
+}
+
+.scroll-to-current:hover {
+  background: var(--info-color);
+  color: white;
+}
+
+.create-activity {
+  border-color: var(--success-color);
+  color: var(--success-color);
+}
+
+.create-activity:hover {
+  background: var(--success-color);
+  color: white;
+}
+
+/* Sezione All-day */
+.allday-section {
+  margin-bottom: var(--spacing-xl);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.allday-header h3 {
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.allday-events {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+/* Timeline principale */
+.calendar-timeline {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+}
+
+.timeline-container {
+  display: flex;
+  max-height: 70vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Colonna degli orari */
+.time-column {
+  width: 100px;
+  background: var(--background-secondary);
+  border-right: 2px solid var(--border-color);
+  position: sticky;
+  left: 0;
+  z-index: 10;
+}
+
+.time-label {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--background-secondary);
+  position: relative;
+}
+
+.time-label::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border-color);
+}
+
+/* Colonna degli eventi */
+.events-column {
+  flex: 1;
+  position: relative;
+  background: var(--background-primary);
+}
+
+/* Linea del tempo corrente */
+.current-time-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--error-color);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.current-time-line::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  background: var(--error-color);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--background-primary);
+}
+
+/* Slot orari */
+.time-slot {
+  height: 60px;
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  background: var(--background-primary);
+}
+
+.time-slot:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.02) 100%);
+}
+
+.time-slot.past {
+  background: linear-gradient(135deg, rgba(156, 163, 175, 0.05) 0%, rgba(156, 163, 175, 0.02) 100%);
+  opacity: 0.7;
+}
+
+.time-slot.current {
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(245, 124, 0, 0.05) 100%);
+  border: 2px solid var(--warning-color);
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+}
+
+.time-slot.future {
+  background: var(--background-primary);
+}
+
+.time-slot.night {
+  background: linear-gradient(135deg, rgba(63, 81, 181, 0.08) 0%, rgba(48, 63, 159, 0.03) 100%);
+}
+
+.time-slot.work {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.08) 0%, rgba(69, 160, 73, 0.03) 100%);
+}
+
+.slot-content {
+  padding: var(--spacing-sm);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Slot vuoto */
+.empty-slot {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: var(--transition-normal);
+  border: 2px dashed transparent;
+  border-radius: var(--border-radius-sm);
+}
+
+.empty-slot:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.02) 100%);
+}
+
+.add-icon {
+  font-size: 1.5rem;
+  font-weight: 300;
+  opacity: 0.5;
+}
+
+.empty-slot:hover .add-icon {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Attività negli slot */
+.slot-activities {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 100%;
+}
+
+.activity-event {
+  background: var(--primary-color);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  font-size: 0.8rem;
+  line-height: 1.2;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.activity-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.activity-event.da-fare {
+  background: var(--warning-color);
+}
+
+.activity-event.in-corso {
+  background: var(--info-color);
+}
+
+.activity-event.fatta {
+  background: var(--success-color);
+}
+
+.activity-event.rimandata {
+  background: var(--error-color);
+}
+
+.activity-event.alta {
+  border-left: 3px solid #ff6b6b;
+}
+
+.activity-event.media {
+  border-left: 3px solid #ffd93d;
+}
+
+.activity-event.bassa {
+  border-left: 3px solid #6bcf7f;
+}
+
+.activity-title {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.activity-time {
+  font-size: 0.7rem;
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.activity-status {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 0.7rem;
+}
+
+/* Dettagli slot selezionato */
+.slot-details {
+  margin-top: var(--spacing-lg);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.slot-details h4 {
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.slot-activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+
+/* Scrollbar personalizzata */
+.timeline-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.timeline-container::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+  border-radius: 4px;
+}
+
+.timeline-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+  border-radius: 4px;
+}
+
+.timeline-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--secondary-color), var(--primary-color));
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .daily-stats {
+    gap: var(--spacing-md);
+  }
+  
+  .stat-item {
+    min-width: 70px;
+    padding: var(--spacing-sm);
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .daily-calendar {
+    padding: var(--spacing-md);
+  }
+  
+  .daily-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+    align-items: flex-start;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: center;
+    width: 100%;
+  }
+  
+  .daily-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .daily-stats {
+    gap: var(--spacing-sm);
+    width: 100%;
+    justify-content: space-around;
+  }
+  
+  .stat-item {
+    min-width: 60px;
+    padding: var(--spacing-sm);
+  }
+  
+  .stat-number {
+    font-size: 1.3rem;
+  }
+  
+  .stat-label {
+    font-size: 0.7rem;
+  }
+  
+  .calendar-controls {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .control-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .time-column {
+    width: 80px;
+  }
+  
+  .time-label {
+    font-size: 0.7rem;
+  }
+  
+  .timeline-container {
+    max-height: 60vh;
+  }
+  
+  .time-slot {
+    height: 50px;
+  }
+  
+  .activity-event {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+  }
+  
+}
+
+@media (max-width: 480px) {
+  .daily-calendar {
+    padding: var(--spacing-sm);
+  }
+  
+  .daily-header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .today-btn {
+    padding: 0 var(--spacing-sm);
+    font-size: 0.8rem;
+  }
+  
+  .calendar-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xs);
+  }
+  
+  .stat-item {
+    min-width: auto;
+    padding: var(--spacing-xs);
+  }
+  
+  .stat-number {
+    font-size: 1.2rem;
+  }
+  
+  .stat-label {
+    font-size: 0.6rem;
+  }
+  
+  .time-column {
+    width: 60px;
+  }
+  
+  .time-label {
+    font-size: 0.6rem;
+    height: 45px;
+  }
+  
+  .time-slot {
+    height: 45px;
+  }
+  
+  .activity-event {
+    font-size: 0.6rem;
+    padding: 1px 4px;
+  }
+  
+  .activity-title {
+    font-size: 0.6rem;
+  }
+  
+  .activity-time {
+    font-size: 0.5rem;
+  }
+}
+
+/* Animazioni */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Effetti di transizione */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}

@@ -17,11 +17,17 @@ const ActivityForm = ({ activity, onSave, onCancel }) => {
   });
 
   useEffect(() => {
+    // Debug: controlla cosa viene passato al form
+    console.log('ActivityForm - Activity ricevuta:', activity);
+    console.log('ActivityForm - Ha ID?', activity && activity.id);
+    
     if (activity) {
+      // Se l'activity ha un id, è una modifica, altrimenti è una nuova attività con dati precompilati
+      const today = new Date().toISOString().split('T')[0];
       setFormData({
         title: activity.title || '',
         description: activity.description || '',
-        date: activity.date || '',
+        date: activity.date || today,
         time: activity.time || '',
         endDate: activity.endDate || '',
         endTime: activity.endTime || '',
@@ -72,7 +78,7 @@ const ActivityForm = ({ activity, onSave, onCancel }) => {
     <div className="modal-overlay">
       <div className="modal-content">
         <div className="modal-header">
-          <h2>{activity ? 'Modifica Attività' : 'Nuova Attività'}</h2>
+          <h2>{activity && activity.id ? 'Modifica Attività' : 'Nuova Attività'}</h2>
           <button className="close-btn" onClick={onCancel}>×</button>
         </div>
 
@@ -234,7 +240,7 @@ const ActivityForm = ({ activity, onSave, onCancel }) => {
               Annulla
             </button>
             <button type="submit" className="save-btn">
-              {activity ? 'Aggiorna' : 'Salva'}
+              {activity && activity.id ? 'Aggiorna' : 'Salva'}
             </button>
           </div>
         </form>

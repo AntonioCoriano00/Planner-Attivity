@@ -24,7 +24,7 @@
   font-size: 2.5rem;
   font-weight: 700;
   text-transform: capitalize;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -51,9 +51,9 @@
 }
 
 .nav-btn:hover {
-  background: #667eea;
+  background: #6366f1;
   color: white;
-  border-color: #667eea;
+  border-color: #6366f1;
   transform: scale(1.1);
 }
 
@@ -85,7 +85,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #a855f7);
 }
 
 .stat-card:hover {
@@ -94,7 +94,7 @@
 }
 
 .stat-card.primary::before {
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #a855f7);
 }
 
 .stat-card.success::before {
@@ -229,7 +229,7 @@
 
 .productivity-bar {
   width: 100%;
-  background: linear-gradient(to top, #667eea, #764ba2);
+  background: linear-gradient(to top, #6366f1, #8b5cf6, #a855f7);
   border-radius: 4px 4px 0 0;
   min-height: 4px;
   transition: all 0.3s ease;
@@ -361,7 +361,7 @@
 .calendar-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
   color: white;
 }
 
@@ -398,7 +398,7 @@
   transform: scale(1.02);
   z-index: 2;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-  border-color: #667eea;
+  border-color: #6366f1;
 }
 
 .calendar-day.other-month {
@@ -597,7 +597,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
   color: white;
 }
 
@@ -641,7 +641,7 @@
   padding: 1rem;
   background: #f8f9fa;
   border-radius: 10px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #6366f1;
 }
 
 .activity-info {

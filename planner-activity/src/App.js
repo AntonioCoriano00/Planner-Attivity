@@ -87,9 +87,24 @@ function AppContent() {
     }
   };
 
+  const createActivity = (preFilledActivity) => {
+    // Debug: controlla cosa viene passato
+    console.log('App - createActivity chiamata con:', preFilledActivity);
+    console.log('App - Ha ID?', preFilledActivity && preFilledActivity.id);
+    
+    // Non impostare come editingActivity - usa un state separato per i dati precompilati
+    // Questo assicura che venga sempre trattato come nuova attività
+    setEditingActivity(preFilledActivity || null);
+    setShowForm(true);
+  };
+
   const updateActivity = async (updatedActivity) => {
     try {
       // Usa l'ID dell'attività che stiamo modificando, non dai dati del form
+      if (!editingActivity || !editingActivity.id) {
+        console.error('Nessuna attività in modifica o ID mancante');
+        return;
+      }
       await updateActivityInBackend(editingActivity.id, updatedActivity);
       setEditingActivity(null);
       setShowForm(false);
@@ -172,6 +187,7 @@ function AppContent() {
             onToggleStatus={toggleActivityStatus}
             onNavigateToPrevious={navigateToPrevious}
             onNavigateToNext={navigateToNext}
+            onCreateActivity={createActivity}
           />
         );
       case 'weekly':
@@ -249,7 +265,7 @@ function AppContent() {
       {showForm && (
         <ActivityForm
           activity={editingActivity}
-          onSave={editingActivity ? updateActivity : addActivity}
+          onSave={editingActivity && editingActivity.id ? updateActivity : addActivity}
           onCancel={() => {
             setShowForm(false);
             setEditingActivity(null);

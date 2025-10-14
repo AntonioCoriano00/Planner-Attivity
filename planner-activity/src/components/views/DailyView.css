@@ -1,206 +1,458 @@
 .daily-view {
-  padding: 2rem;
-  max-width: 1200px;
+  padding: var(--spacing-xl);
+  max-width: 1400px;
   margin: 0 auto;
 }
 
-/* Toggle per cambiare vista */
-.view-toggle {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-  gap: 1rem;
-}
-
-.toggle-btn {
-  background: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 25px;
-  padding: 0.75rem 1.5rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #666;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.toggle-btn:hover {
-  border-color: #667eea;
-  color: #667eea;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
-}
-
-.toggle-btn.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-color: #667eea;
-  color: white;
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-}
+/* DailyView ora mostra solo il calendario */
 
 .daily-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .daily-header h2 {
   margin: 0;
-  color: #333;
-  font-size: 1.8rem;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 500;
   text-transform: capitalize;
 }
 
 .daily-stats {
   display: flex;
-  gap: 2rem;
+  gap: var(--spacing-lg);
 }
 
 .stat-item {
   text-align: center;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 10px;
+  padding: var(--spacing-md);
+  background: white;
+  border-radius: var(--border-radius-md);
   min-width: 80px;
+  border: 1px solid var(--border-light);
+  transition: all var(--transition-normal);
+}
+
+.stat-item:hover {
+  box-shadow: var(--shadow-sm);
 }
 
 .stat-number {
   display: block;
   font-size: 1.5rem;
-  font-weight: bold;
-  color: #667eea;
+  font-weight: 600;
+  color: var(--primary-color);
 }
 
 .stat-label {
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
-  color: #666;
+  color: var(--text-secondary);
+  background: white;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-light);
 }
 
 .empty-icon {
-  font-size: 4rem;
-  margin-bottom: 1rem;
+  font-size: 3.5rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.5;
 }
 
 .empty-state h3 {
-  margin: 0 0 0.5rem 0;
-  color: #333;
-  font-size: 1.5rem;
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
 .empty-state p {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
 
-.daily-content {
-  display: grid;
-  gap: 2rem;
-}
-
-.status-section {
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-}
-
-.status-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-left: 5px solid;
-}
-
-.status-icon {
-  font-size: 1.5rem;
-}
-
-.status-header h3 {
-  margin: 0;
-  color: #333;
-  font-size: 1.3rem;
-  flex: 1;
-}
-
-.activity-count {
-  background: #e9ecef;
-  color: #666;
-  padding: 0.25rem 0.75rem;
-  border-radius: 15px;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.activities-grid {
-  padding: 1.5rem;
-  display: grid;
-  gap: 1rem;
-}
-
-.empty-status {
-  text-align: center;
-  padding: 2rem;
-  color: #999;
-  font-style: italic;
-}
 
 @media (max-width: 768px) {
   .daily-view {
-    padding: 1rem;
-  }
-  
-  .view-toggle {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .toggle-btn {
-    width: 100%;
-    max-width: 200px;
-    justify-content: center;
+    padding: var(--spacing-md);
   }
   
   .daily-header {
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--spacing-md);
     text-align: center;
+    align-items: flex-start;
+  }
+
+  .daily-header h2 {
+    font-size: 1.25rem;
   }
   
   .daily-stats {
-    gap: 1rem;
+    gap: var(--spacing-sm);
+    width: 100%;
+    justify-content: space-around;
   }
   
   .stat-item {
     min-width: 60px;
-    padding: 0.75rem;
+    padding: var(--spacing-sm);
   }
   
   .stat-number {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.6875rem;
   }
   
-  .status-header {
-    padding: 1rem;
+}
+
+/* Timeline giornaliera tipo Google Calendar */
+.daily-timeline-container {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.daily-timeline {
+  display: flex;
+  min-height: 600px;
+}
+
+/* All-day column - extends full height */
+.allday-column {
+  width: 200px;
+  border-right: 1px solid var(--border-light);
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.allday-events-container {
+  flex: 1;
+  padding: 8px;
+  overflow-y: auto;
+  max-height: 800px;
+}
+
+.allday-label {
+  width: 100%;
+  padding: 12px 8px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.allday-event-card {
+  background: #4285f4;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+}
+
+.allday-event-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.allday-event-content {
+  padding: 12px;
+}
+
+.allday-event-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0 0 6px 0;
+  color: white;
+}
+
+.allday-event-description {
+  font-size: 12px;
+  margin: 0 0 8px 0;
+  opacity: 0.9;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.allday-event-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.allday-event-status,
+.allday-event-priority {
+  opacity: 0.9;
+}
+
+/* Time grid */
+.time-grid {
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 800px;
+  background: #ffffff;
+}
+
+.time-slot {
+  display: flex;
+  min-height: 60px;
+  border-bottom: 1px solid #e8eaed;
+  position: relative;
+  width: 100%;
+}
+
+.time-label {
+  width: 120px;
+  padding: 8px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: right;
+  border-right: 1px solid var(--border-light);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-weight: 400;
+}
+
+.time-content {
+  flex: 1;
+  padding: 2px 8px;
+  position: relative;
+  background: #ffffff;
+  width: calc(100% - 120px);
+  min-width: 0;
+}
+
+/* Timeline events */
+.timeline-event-card {
+  background: #4285f4;
+  color: white;
+  margin: 4px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.timeline-event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.event-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+  color: white;
+  flex: 1;
+  line-height: 1.3;
+}
+
+.event-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+}
+
+.event-priority,
+.event-status {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.event-description {
+  font-size: 12px;
+  margin: 0 0 8px 0;
+  opacity: 0.9;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.event-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.event-time {
+  font-weight: 500;
+}
+
+.event-category {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 10px;
+}
+
+/* Current time indicator */
+.current-time-indicator {
+  position: absolute;
+  left: 120px;
+  right: 0;
+  height: 2px;
+  background: #ea4335;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.current-time-indicator::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  background: #ea4335;
+  border-radius: 50%;
+}
+
+
+/* Responsive timeline */
+@media (max-width: 768px) {
+  .daily-timeline-container {
+    margin: 0 -var(--spacing-md);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
   }
   
-  .activities-grid {
-    padding: 1rem;
+  .allday-column {
+    width: 150px;
+  }
+  
+  .allday-label {
+    font-size: 10px;
+  }
+  
+  .time-label {
+    width: 80px;
+    font-size: 10px;
+  }
+  
+  .time-content {
+    width: calc(100% - 80px);
+  }
+  
+  .timeline-event-card {
+    margin: 2px 0;
+  }
+  
+  .event-title {
+    font-size: 12px;
+  }
+  
+  .event-description {
+    font-size: 11px;
+    -webkit-line-clamp: 1;
+  }
+  
+  .event-footer {
+    font-size: 10px;
+  }
+  
+  .allday-event-content {
+    padding: 8px;
+  }
+  
+  .allday-event-title {
+    font-size: 12px;
+  }
+  
+  .allday-event-description {
+    font-size: 11px;
+    -webkit-line-clamp: 1;
+  }
+  
+  .current-time-indicator {
+    left: 80px;
+  }
+  
+}
+
+@media (max-width: 480px) {
+  .allday-column {
+    width: 120px;
+  }
+  
+  .allday-events-container {
+    padding: 4px;
+  }
+  
+  .allday-event-content {
+    padding: 6px;
+  }
+  
+  .allday-event-title {
+    font-size: 11px;
+  }
+  
+  .allday-event-description {
+    font-size: 10px;
+  }
+  
+  .time-label {
+    width: 60px;
+  }
+  
+  .time-content {
+    width: calc(100% - 60px);
+  }
+  
+  .current-time-indicator {
+    left: 60px;
   }
 }

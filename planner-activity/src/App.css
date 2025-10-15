@@ -17,22 +17,22 @@
   --info-color: #4285f4;
   
   /* Colori neutri */
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
   --text-muted: #94a3b8;
   --background-primary: #ffffff;
-  --background-secondary: #faf5ff;
-  --background-tertiary: #f3f4f6;
-  --background-light: #f8fafc;
-  --border-color: #e0e7ff;
-  --border-light: #f1f5f9;
+  --background-secondary: #f5f3ff;
+  --background-tertiary: #e5e7eb;
+  --background-light: #f1f5f9;
+  --border-color: #c7d2fe;
+  --border-light: #e2e8f0;
   
-  /* Ombre - Tonalità viola moderne */
-  --shadow-xs: 0 1px 2px 0 rgba(99, 102, 241, 0.05);
-  --shadow-sm: 0 1px 3px 0 rgba(99, 102, 241, 0.1);
-  --shadow-md: 0 4px 12px 0 rgba(99, 102, 241, 0.15);
-  --shadow-lg: 0 8px 20px 0 rgba(99, 102, 241, 0.2);
-  --shadow-xl: 0 12px 32px 0 rgba(99, 102, 241, 0.25);
+  /* Ombre - Tonalità viola moderne con maggiore contrasto */
+  --shadow-xs: 0 1px 2px 0 rgba(99, 102, 241, 0.08);
+  --shadow-sm: 0 2px 4px 0 rgba(99, 102, 241, 0.15);
+  --shadow-md: 0 4px 12px 0 rgba(99, 102, 241, 0.25);
+  --shadow-lg: 0 8px 20px 0 rgba(99, 102, 241, 0.3);
+  --shadow-xl: 0 12px 32px 0 rgba(99, 102, 241, 0.35);
   
   /* Bordi - Più arrotondati */
   --border-radius-sm: 8px;
@@ -65,26 +65,26 @@ body {
   position: relative;
   overflow-x: hidden;
   
-  /* Sfondo principale con pattern agenda */
+  /* Sfondo principale con pattern agenda e maggiore contrasto */
   background: 
     /* Pattern righe come un'agenda */
     repeating-linear-gradient(
       0deg,
       transparent,
       transparent 35px,
-      rgba(99, 102, 241, 0.08) 35px,
-      rgba(99, 102, 241, 0.08) 37px
+      rgba(99, 102, 241, 0.12) 35px,
+      rgba(99, 102, 241, 0.12) 37px
     ),
     /* Pattern verticale per simulare colonne */
     repeating-linear-gradient(
       90deg,
       transparent,
       transparent 80px,
-      rgba(139, 92, 246, 0.05) 80px,
-      rgba(139, 92, 246, 0.05) 81px
+      rgba(139, 92, 246, 0.08) 80px,
+      rgba(139, 92, 246, 0.08) 81px
     ),
-    /* Gradiente di sfondo */
-    linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #ddd6fe 100%);
+    /* Gradiente di sfondo con maggiore contrasto */
+    linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 50%, #ddd6fe 100%);
   
   background-attachment: fixed;
   color: var(--text-primary);

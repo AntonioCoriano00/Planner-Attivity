@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ActivityCard from '../ActivityCard';
+import ActivityDetailsModal from './ActivityDetailsModal';
 import { getActivitiesForDate } from '../../utils/activityUtils';
 import './DailyCalendar.css';
 
@@ -9,12 +10,25 @@ const DailyCalendar = ({
   onEditActivity, 
   onDeleteActivity, 
   onToggleStatus, 
+  onUpdateActivity,
   onNavigateToPrevious, 
-  onNavigateToNext,
+  onNavigateToNext, 
+  onNavigateToToday, 
   onCreateActivity 
 }) => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [selectedActivity, setSelectedActivity] = useState(null);
   const timelineRef = useRef(null);
+
+  // Aggiorna selectedActivity quando l'array activities cambia
+  useEffect(() => {
+    if (selectedActivity) {
+      const updatedActivity = activities.find(a => a.id === selectedActivity.id);
+      if (updatedActivity) {
+        setSelectedActivity(updatedActivity);
+      }
+    }
+  }, [activities, selectedActivity]);
 
   const formatDate = (date) => {
     return date.toISOString().split('T')[0];
@@ -98,7 +112,7 @@ const DailyCalendar = ({
       const now = new Date();
       const currentHour = now.getHours();
       const currentMinute = now.getMinutes();
-      const slotHeight = 60; // 60px per slot (30 minuti)
+      const slotHeight = 80; // 80px per slot (30 minuti)
       
       // Calcola la posizione dello slot corrente
       const currentSlot = currentHour * 2 + Math.floor(currentMinute / 30);
@@ -132,6 +146,40 @@ const DailyCalendar = ({
 
   const stats = getDailyStats();
 
+  // Progressi ultimi 7 giorni (percentuale completamento per giorno)
+  const getProgressLast7Days = () => {
+    const progress = [];
+    const labels = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(selectedDate);
+      d.setDate(d.getDate() - i);
+      const dayStr = formatDate(d);
+      const acts = getActivitiesForDate(activities, dayStr);
+      const total = acts.length;
+      const completed = acts.filter(a => a.status === 'fatta').length;
+      const rate = total > 0 ? completed / total : 0;
+      progress.push(rate);
+      labels.push(
+        d.toLocaleDateString('it-IT', { weekday: 'short', day: '2-digit' })
+      );
+    }
+    return { progress, labels };
+  };
+
+  const { progress: last7Progress, labels: last7Labels } = getProgressLast7Days();
+
+  const getMiniChartPoints = (data, width = 220, height = 64, padding = 2) => {
+    const max = 1; // scala fissa 0-100%
+    const innerW = width - padding * 2;
+    const innerH = height - padding * 2;
+    const step = innerW / (data.length - 1);
+    const toY = (v) => padding + (innerH - (v / max) * innerH);
+    const points = data.map((v, i) => ({ x: padding + i * step, y: toY(v), v }));
+    const linePoints = points.map(p => `${p.x},${p.y}`).join(' ');
+    const areaPoints = `${padding},${padding + innerH} ${linePoints} ${padding + (data.length - 1) * step},${padding + innerH}`;
+    return { linePoints, areaPoints, points, width, height, padding };
+  };
+
   // Gestione creazione nuova attività
   const handleCreateActivity = (timeSlot) => {
     // Invece di aprire un modal, apriamo direttamente il form con i dati precompilati
@@ -150,50 +198,62 @@ const DailyCalendar = ({
   };
 
   return (
-    <div className="daily-calendar">
+   <div className='daily-calendar'> 
       {/* Header del calendario - stile uniforme con altre pagine */}
       <div className="daily-header">
-        <div className="header-content">
-          <h2>
-            {selectedDate.toLocaleDateString('it-IT', { 
-              weekday: 'long', 
-              day: 'numeric', 
-              month: 'long',
-              year: 'numeric'
-            })}
-          </h2>
-          
-          <div className="date-navigation">
-            <button 
-              onClick={onNavigateToPrevious}
-              className="nav-btn"
-              title="Giorno precedente"
-            >
-              ←
-            </button>
-            <button 
-              onClick={() => {
-                const today = new Date();
-                if (formatDate(selectedDate) !== formatDate(today)) {
-                  // Logica per andare a oggi
-                }
-              }}
-              className="nav-btn today-btn"
-              title="Vai a oggi"
-            >
-              Oggi
-            </button>
-            <button 
-              onClick={onNavigateToNext}
-              className="nav-btn"
-              title="Giorno successivo"
-            >
-              →
-            </button>
-          </div>
-        </div>
+        <h2>
+          {selectedDate.toLocaleDateString('it-IT', { 
+            weekday: 'long', 
+            day: 'numeric', 
+            month: 'long',
+            year: 'numeric'
+          })}
+        </h2>
         
-        {/* Statistiche giornaliere */}
+        <div className="date-navigation">
+          <button 
+            onClick={onNavigateToPrevious}
+            className="nav-btn"
+            title="Giorno precedente"
+          >
+            <span>←</span>
+          </button>
+          <button 
+            onClick={onNavigateToNext}
+            className="nav-btn"
+            title="Giorno successivo"
+          >
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Controlli del calendario */}
+      <div className="calendar-controls">
+        {/* Mini grafico frequenze per ora (sparkline) */}
+        {(() => {
+          const { linePoints, areaPoints, points } = getMiniChartPoints(last7Progress);
+          return (
+            <div className="mini-frequency-chart" title="Progresso giornaliero ultimi 7 giorni">
+              <svg width="220" height="64" viewBox="0 0 220 64" preserveAspectRatio="none">
+                <polyline points={areaPoints} className="spark-area" />
+                <polyline points={linePoints} className="spark-line" />
+                {points.map((p, i) => (
+                  <g key={i} className="spark-point" transform={`translate(${p.x}, ${p.y})`}>
+                    <circle r="2.5" className="point-circle" />
+                    <g className="point-tooltip">
+                      <rect x="-28" y="-30" width="56" height="20" rx="4" ry="4" />
+                      <text x="0" y="-17" textAnchor="middle">
+                        {last7Labels[i]} — {Math.round(p.v * 100)}%
+                      </text>
+                    </g>
+                  </g>
+                ))}
+              </svg>
+            </div>
+          );
+        })()}
+        {/* Statistiche giornaliere centrate nei controlli */}
         <div className="daily-stats">
           <div className="stat-item">
             <span className="stat-number">{stats.total}</span>
@@ -216,34 +276,19 @@ const DailyCalendar = ({
             <span className="stat-label">Progresso</span>
           </div>
         </div>
-      </div>
-
-      {/* Controlli del calendario */}
-      <div className="calendar-controls">
         <button 
           className="control-btn scroll-to-current"
-          onClick={scrollToCurrentTime}
-          title="Vai all'ora corrente"
-        >
-          🕐 Ora Corrente
-        </button>
-        <button 
-          className="control-btn create-activity"
           onClick={() => {
-            const preFilledActivity = {
-              title: '',
-              description: '',
-              date: selectedDateStr,
-              time: '',
-              status: 'da-fare',
-              priority: 'media',
-              category: ''
-            };
-            onCreateActivity && onCreateActivity(preFilledActivity);
+            if (onNavigateToToday) {
+              onNavigateToToday();
+            }
+            setTimeout(() => {
+              scrollToCurrentTime();
+            }, 100);
           }}
-          title="Crea nuova attività"
+          title="Vai a oggi e all'ora corrente"
         >
-          ➕ Nuova Attività
+          🕐 Now
         </button>
       </div>
 
@@ -255,14 +300,19 @@ const DailyCalendar = ({
           </div>
           <div className="allday-events">
             {dailyActivities.filter(a => !a.time).map(activity => (
-              <ActivityCard
-                key={activity.id}
-                activity={activity}
-                onEdit={() => onEditActivity(activity)}
-                onDelete={() => onDeleteActivity(activity.id)}
-                onToggleStatus={() => onToggleStatus(activity.id)}
-                compact={true}
-              />
+              <div 
+                key={activity.id} 
+                onClick={() => setSelectedActivity(activity)}
+                style={{ cursor: 'pointer' }}
+              >
+                <ActivityCard
+                  activity={activity}
+                  onEdit={() => setSelectedActivity(activity)}
+                  onDelete={() => onDeleteActivity(activity.id)}
+                  onToggleStatus={() => onToggleStatus(activity.id)}
+                  compact={true}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -288,7 +338,7 @@ const DailyCalendar = ({
                 const currentHour = now.getHours();
                 const currentMinute = now.getMinutes();
                 const currentSlot = currentHour * 2 + Math.floor(currentMinute / 30);
-                const topPosition = currentSlot * 60 + (currentMinute % 30) * 2; // 60px per slot
+                const topPosition = currentSlot * 80 + (currentMinute % 30) * (80 / 30); // 80px per slot
                 
                 return (
                   <div 
@@ -308,14 +358,14 @@ const DailyCalendar = ({
               >
                 <div className="slot-content">
                   {slot.activities.length > 0 ? (
-                    <div className="slot-activities">
+                    <div className={`slot-activities ${slot.activities.length > 1 ? 'has-multiple' : ''}`}>
                       {slot.activities.map((activity, actIndex) => (
                         <div 
                           key={activity.id}
                           className={`activity-event ${activity.status} ${activity.priority}`}
                           onClick={(e) => {
                             e.stopPropagation();
-                            onEditActivity(activity);
+                            setSelectedActivity(activity);
                           }}
                           title={`${activity.title} - ${activity.time}${activity.endTime ? ` - ${activity.endTime}` : ''}`}
                         >
@@ -359,13 +409,25 @@ const DailyCalendar = ({
               <ActivityCard
                 key={activity.id}
                 activity={activity}
-                onEdit={() => onEditActivity(activity)}
+                onEdit={() => setSelectedActivity(activity)}
                 onDelete={() => onDeleteActivity(activity.id)}
                 onToggleStatus={() => onToggleStatus(activity.id)}
               />
             ))}
           </div>
         </div>
+      )}
+
+      {/* Modal dettagli attività */}
+      {selectedActivity && (
+        <ActivityDetailsModal
+          activity={activities.find(a => a.id === selectedActivity.id) || selectedActivity}
+          onClose={() => setSelectedActivity(null)}
+          onEdit={onEditActivity}
+          onDelete={onDeleteActivity}
+          onToggleStatus={onToggleStatus}
+          onUpdateActivity={onUpdateActivity}
+        />
       )}
 
     </div>

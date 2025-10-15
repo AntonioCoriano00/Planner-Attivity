@@ -98,21 +98,27 @@
 
 /* Statistiche Principali */
 .main-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--spacing-lg);
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
   margin-bottom: var(--spacing-xl);
   animation: slideInUp 0.8s ease-out 0.2s both;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .stat-card {
-  background: var(--background-primary);
-  border-radius: var(--border-radius-xl);
-  padding: var(--spacing-xl);
-  box-shadow: var(--shadow-lg);
+  text-align: center;
+  padding: var(--spacing-lg) var(--spacing-md);
+  background: white;
+  border-radius: var(--border-radius-lg);
+  min-width: 100px;
+  border: 2px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-lg);
+  justify-content: center;
   transition: var(--transition-normal);
   position: relative;
   overflow: hidden;
@@ -126,9 +132,10 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  transition: var(--transition-normal);
+  height: 3px;
+  background: var(--primary-color);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
 }
 
 .stat-card::after {
@@ -144,15 +151,12 @@
 }
 
 .stat-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+  transform: translateY(-3px);
 }
 
 .stat-card:hover::before {
-  height: 6px;
-}
-
-.stat-card:hover::after {
   opacity: 1;
 }
 
@@ -191,25 +195,21 @@
 }
 
 .stat-number {
-  font-size: 2.5rem;
+  display: block;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-xs);
   line-height: 1;
-  margin-bottom: var(--spacing-sm);
-  transition: var(--transition-normal);
-}
-
-.stat-card:hover .stat-number {
-  transform: scale(1.05);
 }
 
 .stat-label {
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: var(--spacing-xs);
+  letter-spacing: 0.75px;
   font-weight: 600;
+  margin: 0;
 }
 
 .stat-detail {
@@ -1367,16 +1367,24 @@
   }
   
   .main-stats {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    justify-content: space-between;
   }
   
   .stat-card {
-    padding: 1.5rem;
+    min-width: 70px;
+    padding: var(--spacing-md) var(--spacing-sm);
+    flex: 1;
+    max-width: calc(20% - var(--spacing-sm));
   }
   
   .stat-number {
-    font-size: 2rem;
+    font-size: 1.4rem;
+  }
+  
+  .stat-label {
+    font-size: 0.7rem;
   }
   
   .dashboard-controls {
@@ -1453,7 +1461,11 @@
   }
   
   .stat-number {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
+  }
+  
+  .stat-label {
+    font-size: 0.6rem;
   }
   
   .timeline-container,

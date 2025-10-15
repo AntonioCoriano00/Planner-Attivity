@@ -10,6 +10,7 @@ import WeeklyView from './components/views/WeeklyView';
 import MonthlyView from './components/views/MonthlyView';
 import StatusView from './components/views/StatusView';
 import AdminDashboard from './components/admin/AdminDashboard';
+import ConfirmDialog from './components/ConfirmDialog';
 import { useActivities } from './hooks/useActivities';
 import { healthService } from './services/api';
 
@@ -23,6 +24,7 @@ function AppContent() {
   const [editingActivity, setEditingActivity] = useState(null);
   const [backendStatus, setBackendStatus] = useState('checking');
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [deleteConfirmData, setDeleteConfirmData] = useState(null);
   const { user, logout } = useAuth();
 
   // Hook per gestire le attività dal backend - SEMPRE chiamato prima di qualsiasi return condizionale
@@ -34,6 +36,7 @@ function AppContent() {
     updateActivity: updateActivityInBackend,
     deleteActivity: deleteActivityFromBackend,
     toggleActivityStatus: toggleActivityStatusInBackend,
+    updateActivityStatus: updateActivityStatusInBackend,
   } = useActivities();
 
   // Controlla lo stato del backend al caricamento - SEMPRE chiamato prima di qualsiasi return condizionale
@@ -120,13 +123,17 @@ function AppContent() {
     const activityTitle = activity ? activity.title : 'questa attività';
     
     // Mostra il dialog di conferma
-    const confirmed = window.confirm(
-      `Sei sicuro di voler eliminare "${activityTitle}"?\n\nQuesta azione non può essere annullata.`
-    );
+    setDeleteConfirmData({
+      id,
+      title: activityTitle
+    });
+  };
+
+  const confirmDeleteActivity = async () => {
+    if (!deleteConfirmData) return;
     
-    if (!confirmed) {
-      return; // L'utente ha annullato l'eliminazione
-    }
+    const { id } = deleteConfirmData;
+    setDeleteConfirmData(null);
     
     try {
       await deleteActivityFromBackend(id);
@@ -175,6 +182,11 @@ function AppContent() {
     setSelectedDate(newDate);
   };
 
+  const navigateToToday = () => {
+    const today = new Date();
+    setSelectedDate(today);
+  };
+
   const renderCurrentView = () => {
     switch (currentView) {
       case 'daily':
@@ -185,8 +197,10 @@ function AppContent() {
             onEditActivity={handleEditActivity}
             onDeleteActivity={deleteActivity}
             onToggleStatus={toggleActivityStatus}
+            onUpdateActivity={updateActivityStatusInBackend}
             onNavigateToPrevious={navigateToPrevious}
             onNavigateToNext={navigateToNext}
+            onNavigateToToday={navigateToToday}
             onCreateActivity={createActivity}
           />
         );
@@ -272,6 +286,17 @@ function AppContent() {
           }}
         />
       )}
+
+      <ConfirmDialog
+        isOpen={!!deleteConfirmData}
+        title="🗑️ Eliminazione"
+        message={deleteConfirmData ? `Sei sicuro di voler eliminare "${deleteConfirmData.title}"? Questa azione non può essere annullata.` : ''}
+        onConfirm={confirmDeleteActivity}
+        onCancel={() => setDeleteConfirmData(null)}
+        confirmText="Elimina"
+        cancelText="Annulla"
+        type="danger"
+      />
     </div>
   );
 }

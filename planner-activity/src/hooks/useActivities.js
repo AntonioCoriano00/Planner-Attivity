@@ -77,7 +77,7 @@ export const useActivities = () => {
     }
   }, []);
 
-  // Aggiorna lo stato di un'attività
+  // Aggiorna lo stato di un'attività (cicla tra gli stati)
   const toggleActivityStatus = useCallback(async (id) => {
     const activity = activities.find(a => a.id === id);
     if (!activity) return;
@@ -103,6 +103,38 @@ export const useActivities = () => {
       setLoading(false);
     }
   }, [activities]);
+
+  // Aggiorna lo stato specifico di un'attività
+  const updateActivityStatus = useCallback(async (id, status) => {
+    console.log('=== HOOK updateActivityStatus ===');
+    console.log('ID:', id, 'Nuovo status:', status);
+    
+    setLoading(true);
+    setError(null);
+    try {
+      console.log('Chiamando activityService.updateActivityStatus...');
+      const updatedActivity = await activityService.updateActivityStatus(id, status);
+      console.log('Attività aggiornata dal server:', updatedActivity);
+      
+      setActivities(prev => {
+        const newActivities = prev.map(activity => 
+          activity.id === id ? updatedActivity : activity
+        );
+        console.log('Array activities aggiornato:', newActivities);
+        return newActivities;
+      });
+      
+      console.log('Hook updateActivityStatus completato con successo');
+      return updatedActivity;
+    } catch (err) {
+      console.error('Errore in updateActivityStatus:', err);
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+      console.log('=== FINE HOOK updateActivityStatus ===');
+    }
+  }, []);
 
   // Carica le attività per una data specifica
   const loadActivitiesByDate = useCallback(async (date) => {
@@ -143,6 +175,7 @@ export const useActivities = () => {
     updateActivity,
     deleteActivity,
     toggleActivityStatus,
+    updateActivityStatus,
     loadActivitiesByDate,
     loadActivitiesByStatus,
   };

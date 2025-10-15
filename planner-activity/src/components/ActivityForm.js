@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ActivityForm.css';
+import Toast from './Toast';
 
 const ActivityForm = ({ activity, onSave, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const ActivityForm = ({ activity, onSave, onCancel }) => {
     priority: 'media',
     category: ''
   });
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     // Debug: controlla cosa viene passato al form
@@ -55,7 +57,7 @@ const ActivityForm = ({ activity, onSave, onCancel }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.title.trim()) {
-      alert('Il titolo è obbligatorio');
+      setToast({ message: 'Il titolo è obbligatorio', type: 'error' });
       return;
     }
     onSave(formData);
@@ -245,6 +247,14 @@ const ActivityForm = ({ activity, onSave, onCancel }) => {
           </div>
         </form>
       </div>
+      
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };

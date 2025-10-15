@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './AdminDashboard.css';
 import { useAuth } from '../../contexts/AuthContext';
+import ConfirmDialog from '../ConfirmDialog';
+import Toast from '../Toast';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -17,6 +19,8 @@ const AdminDashboard = () => {
   const [editingPasswordUserId, setEditingPasswordUserId] = useState(null);
   const [newPassword, setNewPassword] = useState('');
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const [deleteUserData, setDeleteUserData] = useState(null);
+  const [toast, setToast] = useState(null);
   
   const { getAuthHeaders } = useAuth();
 
@@ -161,9 +165,21 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    if (!window.confirm('Sei sicuro di voler eliminare questo utente?')) {
-      return;
-    }
+    // Trova l'utente per mostrare l'username nella conferma
+    const user = users.find(u => u.id === userId);
+    const username = user ? user.username : 'questo utente';
+    
+    setDeleteUserData({
+      userId,
+      username
+    });
+  };
+
+  const confirmDeleteUser = async () => {
+    if (!deleteUserData) return;
+    
+    const { userId } = deleteUserData;
+    setDeleteUserData(null);
     
     setLoading(true);
     try {
@@ -204,7 +220,7 @@ const AdminDashboard = () => {
         setEditingPasswordUserId(null);
         setNewPassword('');
         setError(null);
-        alert('Password aggiornata con successo');
+        setToast({ message: 'Password aggiornata con successo', type: 'success' });
       } else {
         const data = await response.json();
         setError(data.error || 'Errore nell\'aggiornamento della password');
@@ -590,6 +606,25 @@ const AdminDashboard = () => {
             </form>
           </div>
         </div>
+      )}
+
+      <ConfirmDialog
+        isOpen={!!deleteUserData}
+        title="🗑️ Eliminazione Utente"
+        message={deleteUserData ? `Sei sicuro di voler eliminare l'utente "${deleteUserData.username}"? Questa azione non può essere annullata.` : ''}
+        onConfirm={confirmDeleteUser}
+        onCancel={() => setDeleteUserData(null)}
+        confirmText="Elimina"
+        cancelText="Annulla"
+        type="danger"
+      />
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
       )}
     </div>
   );

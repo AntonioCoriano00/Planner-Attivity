@@ -101,10 +101,18 @@ export const activityService = {
 
   // Aggiorna solo lo stato di un'attività
   updateActivityStatus: async (id, status) => {
+    console.log('=== API updateActivityStatus ===');
+    console.log('ID:', id, 'Status:', status);
+    console.log('URL:', `/activities/${id}/status`);
+    
     try {
+      console.log('Faccio la chiamata PATCH al server...');
       const response = await api.patch(`/activities/${id}/status`, { status });
+      console.log('Risposta dal server:', response.data);
       return response.data;
     } catch (error) {
+      console.error('Errore API updateActivityStatus:', error);
+      console.error('Response error:', error.response);
       throw new Error(`Errore nell'aggiornamento dello stato: ${error.response?.data?.error || error.message}`);
     }
   },

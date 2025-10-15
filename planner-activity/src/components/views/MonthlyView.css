@@ -1,5 +1,8 @@
 .monthly-view {
-  padding: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  min-height: 100vh;
+  animation: fadeIn 0.8s ease-out;
+  border-radius: var(--border-radius-xl);
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -45,16 +48,30 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--spacing-xl);
-  padding-bottom: var(--spacing-lg);
-  border-bottom: 1px solid var(--border-light);
+  padding: var(--spacing-lg);
+  background: var(--background-primary);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .monthly-header h2 {
   margin: 0;
   color: var(--text-primary);
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-size: 2.2rem;
+  font-weight: 700;
   text-transform: capitalize;
+  letter-spacing: -0.025em;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: var(--transition-normal);
+}
+
+.monthly-header h2:hover {
+  transform: scale(1.02);
 }
 
 .monthly-stats {
@@ -64,40 +81,76 @@
 
 .stat-item {
   text-align: center;
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg) var(--spacing-md);
   background: white;
-  border-radius: var(--border-radius-md);
-  min-width: 80px;
-  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-lg);
+  min-width: 100px;
+  border: 2px solid var(--border-light);
   transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--primary-color);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
 }
 
 .stat-item:hover {
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+  transform: translateY(-3px);
+}
+
+.stat-item:hover::before {
+  opacity: 1;
 }
 
 .stat-number {
   display: block;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 700;
   color: var(--primary-color);
+  margin-bottom: var(--spacing-xs);
+  line-height: 1;
 }
 
 .stat-label {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 500;
+  letter-spacing: 0.75px;
+  font-weight: 600;
+  margin: 0;
 }
 
 .monthly-calendar {
   background: white;
-  border-radius: var(--border-radius-lg);
-  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-xl);
+  border: 2px solid var(--border-light);
   overflow: hidden;
   margin-bottom: var(--spacing-xl);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.monthly-calendar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+  z-index: 1;
 }
 
 .calendar-header {
@@ -221,10 +274,22 @@
 
 .monthly-legend {
   background: white;
-  border-radius: var(--border-radius-lg);
-  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-xl);
+  border: 2px solid var(--border-light);
   padding: var(--spacing-lg);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.monthly-legend::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
 }
 
 .monthly-legend h3 {
@@ -343,4 +408,21 @@
   .legend-item span {
     font-size: 0.8125rem;
   }
+}
+
+/* Animazioni */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Effetti di transizione */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }

@@ -1,12 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.css';
+import ConfirmDialog from './ConfirmDialog';
 
 const Header = ({ user, onLogout }) => {
-  const handleLogout = () => {
-    if (window.confirm('Sei sicuro di voler effettuare il logout?')) {
-      onLogout();
-    }
-  };
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   return (
     <header className="header">
@@ -24,7 +21,7 @@ const Header = ({ user, onLogout }) => {
             </div>
             <button 
               className="logout-button"
-              onClick={handleLogout}
+              onClick={() => setShowLogoutConfirm(true)}
               title="Logout"
             >
               <span className="logout-icon">🚪</span>
@@ -33,6 +30,20 @@ const Header = ({ user, onLogout }) => {
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        isOpen={showLogoutConfirm}
+        title="🚪 Uscita Account"
+        message="Sei sicuro di voler effettuare il logout?"
+        onConfirm={() => {
+          setShowLogoutConfirm(false);
+          onLogout();
+        }}
+        onCancel={() => setShowLogoutConfirm(false)}
+        confirmText="Esci"
+        cancelText="Annulla"
+        type="warning"
+      />
     </header>
   );
 };

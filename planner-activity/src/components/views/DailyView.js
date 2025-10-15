@@ -2,7 +2,7 @@ import React from 'react';
 import DailyCalendar from './DailyCalendar';
 import './DailyView.css';
 
-const DailyView = ({ activities, selectedDate, onEditActivity, onDeleteActivity, onToggleStatus, onNavigateToPrevious, onNavigateToNext, onCreateActivity }) => {
+const DailyView = ({ activities, selectedDate, onEditActivity, onDeleteActivity, onToggleStatus, onNavigateToPrevious, onNavigateToNext, onNavigateToToday, onCreateActivity }) => {
 
   return (
     <div className="daily-view">
@@ -14,6 +14,7 @@ const DailyView = ({ activities, selectedDate, onEditActivity, onDeleteActivity,
         onToggleStatus={onToggleStatus}
         onNavigateToPrevious={onNavigateToPrevious}
         onNavigateToNext={onNavigateToNext}
+        onNavigateToToday={onNavigateToToday}
         onCreateActivity={onCreateActivity}
       />
     </div>
